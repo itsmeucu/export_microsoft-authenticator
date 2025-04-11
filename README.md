@@ -7,15 +7,4 @@
 3. 使用dump.py提取
 4. account_type为1的是微软本身的账户，为0的是手动添加的第三方账户。
 5. 拿到数据以后我们可以导入到自己想要使用的任意软件了，可以手动输入secret_key，也可以直接将上面otpauth://开头的url直接生成二维码进行扫码导入。
-
-
-
-
-Exporting TOTP
-
-1. Locate the dataThe storage path for the 2FA key data in Microsoft Authenticator is /data/data/com.azure.authenticator/databases/PhoneFactor
-2. The PhoneFactor file itself is an SQLite database file, so when copying, you need to copy the PhoneFactor, PhoneFactor-shm, and PhoneFactor-wal files (if available). You can use an SQLite database management tool to view the specific data information. The desired data can be found in the accounts table.
-3. Extracting with dump.py
-4. An account_type of 1 indicates a Microsoft account, while 0 indicates a manually added third-party account.
-5. Importing the data
-   Once you have the data, you can import it into any software you want to use. You can manually enter the secret_key or directly generate a QR code from the otpauth:// URL to scan and import.
+6、默认会生成二维码，按回车显示下一个二维码，此时可以使用验证器扫码即可
