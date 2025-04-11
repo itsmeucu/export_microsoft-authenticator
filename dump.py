@@ -5,6 +5,9 @@ from urllib.parse import quote
 import os
 import logging
 import datetime
+import qrcode
+import sys
+from PIL import Image, ImageDraw
 
 # 配置日志
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -90,10 +93,35 @@ def main():
     if accounts:
         # 生成带有时间戳的输出文件名，避免覆盖旧文件
         date_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = f"output_{date_str}.json"
+        # output_file = f"output_{date_str}.json"
+        output_file = f"output.json"
         save_json_to_file(accounts, output_file)
     else:
         logging.info("未找到符合条件的账户数据。")
 
+    print('请按回车显示一个验证信息图片')
+    for acc in accounts:
+        generate_qrcode(acc['otpauthstr'])
+        input(acc['name'])
+    print('已结束')
+        
+
+def generate_qrcode(data):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white")
+    # img.save("qrcode.png")
+    # print("二维码已保存为qrcode.png")
+    # 使用PIL打开图片
+    img.show()
+
 if __name__ == "__main__":
     main()
+
